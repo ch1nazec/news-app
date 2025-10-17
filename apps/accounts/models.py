@@ -9,8 +9,8 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=30, blank=True)
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
     bio = models.TextField(max_length=500, blank=True)
-    created_up = models.DateTimeField(auto_now_add=True)
-    update_up = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
 
     USERNAME_FIELD = 'email'

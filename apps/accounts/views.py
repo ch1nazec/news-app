@@ -50,16 +50,14 @@ class LoginView(generics.GenericAPIView):
         user = serializer.validated_data['user']
 
         login(request, user)
-        RefreshToken = RefreshToken.for_user(user)
+        refresh = RefreshToken.for_user(user)
 
-        return Response(
-            {
-                'user': UserLoginSerializer(user).data,
-                'refresh': str(Refresh),
-                'access': str(Refresh.access_token),
-                'message': 'User registered successfully',
-            }, status=status.HTTP_200_OK
-        )
+        return Response({
+            'user': UserProfileSerializer(user).data,
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+            'message': 'User login successfully'
+        }, status=status.HTTP_200_OK)
 
 
 class ProfileView(generics.RetrieveAPIView):

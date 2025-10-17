@@ -9,6 +9,6 @@ urlpatterns = [
     path('api/v1/auth/', include('apps.accounts.urls'))
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(static.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(static.STATIC_URL, document_root=settings.STATIC_ROOT)
+# if settings.DEBUG:
+#     urlpatterns += static(static.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+#     urlpatterns += static(static.STATIC_URL, document_root=settings.STATIC_ROOT)
