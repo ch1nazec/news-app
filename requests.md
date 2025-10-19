@@ -382,3 +382,270 @@ Troubleshooting
 400 Bad Request: Check the request body for missing or incorrect fields.
 500 Internal Server Error: Verify the Django server is running and the database is migrated (python manage.py migrate).
 Token Issues: Ensure the rest_framework_simplejwt package is installed and configured correctly in Django settings.
+
+
+
+
+
+
+
+
+{
+  "info": {
+    "name": "Main App API Tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/posts/categories/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "posts", "categories", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Category (Authenticated)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Test Category\", \"description\": \"Test category description\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/posts/categories/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "posts", "categories", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Category by Slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/posts/categories/test-category/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "posts", "categories", "test-category", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Category (Authenticated)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Updated Category\", \"description\": \"Updated description\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/posts/categories/test-category/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "posts", "categories", "test-category", ""]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Posts",
+      "item": [
+        {
+          "name": "Get All Posts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/posts/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "posts", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Post (Authenticated)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\": \"Test Post\", \"content\": \"This is a test post content\", \"category\": 1, \"status\": \"published\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/posts/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "posts", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Post by Slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/posts/test-post/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "posts", "test-post", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Post (Author Only)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\": \"Updated Post\", \"content\": \"Updated content\", \"category\": 1, \"status\": \"published\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/posts/test-post/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "posts", "test-post", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Post (Author Only)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/posts/test-post/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "posts", "test-post", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Posts (Authenticated)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/posts/my-posts/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "posts", "my-posts", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Popular Posts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/posts/popular/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "posts", "popular", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Recent Posts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/posts/recent/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "posts", "recent", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Posts by Category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/posts/categories/test-category/posts/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "posts", "categories", "test-category", "posts", ""]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8000"
+    },
+    {
+      "key": "access_token",
+      "value": "your_jwt_token_here"
+    }
+  ]
+}

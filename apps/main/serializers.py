@@ -24,14 +24,14 @@ class PostListSerializer(serializers.ModelSerializer):
 
     author = serializers.StringRelatedField()
     category = serializers.StringRelatedField()
-    posts = serializers.ReadOnlyField()
+    # posts = serializers.ReadOnlyField()
 
     class Meta:
         model = Post
         fields = [
             'id', 'title', 'slug', 'content', 'image', 'category',
             'author', 'status', 'created_at', 'updated_at',
-            'views_count', 'comments_count'
+            'views_count', 'comments_count',
         ]
 
         read_only_fields = ['slug', 'author', 'views_count']
@@ -55,7 +55,6 @@ class PostDetailSerializer(serializers.ModelSerializer):
             'id', 'title', 'slug', 'content', 'image', 'category',
             'category_info', 'author', 'author_info', 'status',
             'created_at', 'updated_at', 'views_count', 'comments_count',
-            'is_pinned', 'pinned_info', 'can_pin'
         ]
         read_only_fields = ['slug', 'author', 'views_count']
     
@@ -82,7 +81,7 @@ class PostCreateUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ['title', 'content', 'image', 'category', 'status', '']
+        fields = ['title', 'content', 'image', 'category', 'status']
     
     def create(self, validated_data):
         validated_data['author'] = self.context['request'].user
