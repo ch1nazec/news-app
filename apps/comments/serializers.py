@@ -31,7 +31,7 @@ class CommentSerializers(serializers.ModelSerializer):
 class CommentCreateSerializer(serializers.ModelSerializer):
     '''Сериализатор для создания комментариев'''
 
-    class Mets:
+    class Meta:
         model = Comment
         fields = ['post', 'parent', 'content']
     
@@ -42,8 +42,11 @@ class CommentCreateSerializer(serializers.ModelSerializer):
     
 
     def validate_parent(self, value):
-        if value and value.post != self.initial_data.get('post'):
-            raise serializers.ValidationError('Parent comment must belong to the same post')
+        if value:
+            post_data = self.initial_data.get('post')
+            if post_data:
+                if value.post_id != int(post_data):
+                    raise serializers.ValidationError('Parent comment must belong to the same post')
         return value
     
 

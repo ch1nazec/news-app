@@ -10,7 +10,7 @@ class Comment(models.Model):
         related_name='comments',
     )
     author = models.ForeignKey(
-        settings.AUTH_MODEL_USER,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='comments'
     )
@@ -34,9 +34,9 @@ class Comment(models.Model):
         ordering = ['-created_at']
 
         indexes = [
-            models.Index(['post', '-created_at']),
-            models.Index(['author', '-created_at']),
-            models.Index(['parent', '-created_at']),
+            models.Index(fields=['post', '-created_at']),
+            models.Index(fields=['author', '-created_at']),
+            models.Index(fields=['parent', '-created_at']),
         ]
     
     def __str__(self):

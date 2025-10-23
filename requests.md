@@ -649,3 +649,131 @@ Token Issues: Ensure the rest_framework_simplejwt package is installed and confi
     }
   ]
 }
+
+Тестирование комментариев
+1. Получение списка всех комментариев
+
+GET {{base_url}}/api/v1/comments/
+
+Headers: (не требуется авторизация)
+
+Tests:
+
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("Comments list is returned", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property('results');
+    pm.expect(jsonData.results).to.be.an('array');
+});
+
+pm.test("Comment structure is correct", function () {
+    var jsonData = pm.response.json();
+    if (jsonData.results.length > 0) {
+        var comment = jsonData.results[0];
+        pm.expect(comment).to.have.property('id');
+        pm.expect(comment).to.have.property('content');
+        pm.expect(comment).to.have.property('author_info');
+        pm.expect(comment).to.have.property('replies_count');
+        pm.expect(comment).to.have.property('is_reply');
+    }
+});
+
+2. Создание основного комментария
+
+POST {{base_url}}/api/v1/comments/
+
+Headers:
+
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+Body (JSON):
+
+{
+    "post": {{post_id}},
+    "content": "This is my first comment on this amazing blog post! Thank you for sharing such valuable information."
+}
+
+Tests:
+
+pm.test("Status code is 201", function () {
+    pm.response.to.have.status(201);
+});
+
+pm.test("Comment created successfully", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData.content).to.eql("This is my first comment on this amazing blog post! Thank you for sharing such valuable information.");
+    pm.expect(jsonData.post).to.eql(pm.environment.get("post_id"));
+    pm.expect(jsonData.parent).to.be.null;
+    pm.expect(jsonData.is_reply).to.be.false;
+    pm.expect(jsonData.is_active).to.be.true;
+    
+    // Сохраняем ID комментария для дальнейших тестов
+    pm.environment.set("comment_id", jsonData.id);
+});
+
+3. Создание ответа на комментарий
+
+POST {{base_url}}/api/v1/comments/
+
+Headers:
+
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+Body (JSON):
+
+{
+    "post": {{post_id}},
+    "parent": {{comment_id}},
+    "content": "Thank you for your comment! I'm glad you found the post helpful."
+}
+
+Tests:
+
+pm.test("Status code is 201", function () {
+    pm.response.to.have.status(201);
+});
+
+pm.test("Reply comment created successfully", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData.parent).to.eql(pm.environment.get("comment_id"));
+    pm.expect(jsonData.is_reply).to.be.true;
+    
+    // Сохраняем ID ответа
+    pm.environment.set("reply_comment_id", jsonData.id);
+});
+
+4. Получение комментариев к конкретному посту
+
+GET {{base_url}}/api/v1/comments/post/{{post_id}}/
+
+Headers: (не требуется авторизация)
+
+Tests:
+
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("Post comments data structure is correct", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.have.property('post');
+    pm.expect(jsonData).to.have.property('comments');
+    pm.expect(jsonData).to.have.property('comments_count');
+    pm.expect(jsonData.comments).to.be.an('array');
+});
+
+pm.test("Comments include replies", function () {
+    var jsonData = pm.response.json();
+    if (jsonData.comments.length > 0) {
+        var mainComment = jsonData.comments.find(comment => comment.parent === null);
+        if (mainComment) {
+            pm.expect(mainComment).to.have.property('replies');
+            pm.expect(mainComment.replies).to.be.an('array');
+        }
+    }
+});

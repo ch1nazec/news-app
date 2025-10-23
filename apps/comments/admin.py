@@ -20,7 +20,7 @@ class CommentAdmin(admin.ModelAdmin):
             'fields': ('post', 'author', 'parent', 'content')
         }),
         ('Status', {
-            'fields': ('is_active')
+            'fields': ('is_active',)
         }),
         ('Timestamp',{
             'fields': ('created_at', 'updated_at'),
@@ -63,4 +63,3 @@ class CommentAdmin(admin.ModelAdmin):
         self.message_user(request, f'{updated} комменты отключены')
     make_inactive.short_description = 'Comments were inactivate'
 
-    
