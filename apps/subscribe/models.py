@@ -9,7 +9,7 @@ class SubscriptionPlan(models.Model):
     """Модель тарифного плана подписки"""
     name = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    duration_days = models.PositiveIntegerField(max_length=30)
+    duration_days = models.PositiveIntegerField(default=30)
     stripe_price_id = models.CharField(max_length=255, unique=True)
     features = models.JSONField(default=dict, help_text='Список возможностей подписки')
     is_active = models.BooleanField(default=True)

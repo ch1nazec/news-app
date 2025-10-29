@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.utils import timezone
-from .models import SubscriptionPlan, Subscription, PinnedPost, SubsctiptionHistory
+from .models import SubscriptionPlan, Subscription, PinnedPost, SubscriptionHistory
 
 
 class SubscriptionPlanSerializer(serializers.ModelSerializer):
@@ -140,7 +140,7 @@ class SubsctiptionHistorySerializer(serializers.ModelSerializer):
     '''Сериализатор для истории подписки'''
 
     class Meta:
-        model = SubsctiptionHistory
+        model = SubscriptionHistory
         fields = [
             'id', 'action', 'description', 'metadata', 'created_at'
         ]
