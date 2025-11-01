@@ -176,6 +176,14 @@ class PinnedPostAdmin(admin.ModelAdmin):
         return format_html('<a href="{}">{}</a>', url, obj.post.title[:50])
     post_link.short_description = 'Subscription'
 
+    def subscription_status(self, obj):
+        """Статус подписки пользователя"""
+        if hasattr(obj.user, 'subscription') and obj.user.subscription.is_active:
+            return format_html('<span style="color: green;">✓ Active</span>')
+        else:
+            return format_html('<span style="color: red;">✗ Inactive</span>')
+    subscription_status.short_description = 'Subscription'
+
     def get_queryset(self, request):
         return super().get_queryset(request).select_related(
             'user', 'user__subscription', 'post'
