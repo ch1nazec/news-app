@@ -71,8 +71,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',  # Правильный путь
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('POSTGRES_DB', default='newssite'),
+        'USER': config('POSTGRES_USER', default='newsuser'),
+        'PASSWORD': config('POSTGRES_PASSWORD'),
+        'HOST': config('DB_HOST', default='localhost'),
+        'PORT': config('DB_PORT', default='5432', cast=int),
+        'ATOMIC_REQUESTS': True,
     }
 }
 
